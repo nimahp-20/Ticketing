@@ -2,14 +2,19 @@
   <div>
     <div class="q-pa-md q-gutter-sm row">
       <q-btn label="Tickets" color="green" @click="alert = true" />
-      <q-dialog v-model="alert" class="col" style="font-size: 14px">
+      <q-dialog
+        v-model="alert"
+        class="col"
+        style="font-size: 14px"
+        no-backdrop-dismiss
+      >
         <q-card style="min-width: 600px">
           <q-card-section align="center">
             <div class="text-h6">Tickets</div>
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <q-form @submit="onSubmit" @reset="onClose" class="row">
+            <q-form @submit="onSubmit" class="row">
               <q-card-section class="col-6">
                 <q-input
                   filled
