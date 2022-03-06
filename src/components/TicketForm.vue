@@ -46,13 +46,7 @@
                 >
                 </q-select>
               </q-card-section>
-              <q-card-section class="col-12">
-                <editor
-                  v-model="textEditor"
-                  theme="snow"
-                  :options="editorOptions"
-                ></editor>
-              </q-card-section>
+              <q-card-section class="col-12"> </q-card-section>
 
               <q-card-actions class="col-7">
                 <div class="q-px-sm">{{ $t("status") }} :</div>
@@ -114,14 +108,11 @@ export default {
   name: "Tickets",
   components: {
     appLanguage: Language,
-    editor: Editor,
   },
   setup() {
     const $q = useQuasar();
-    const textEditor = ref(null);
     const Subject = ref(null);
     const model = ref(null);
-    const text = ref(null);
     const email = ref(null);
     const phone = ref(null);
     const alert = ref(false);
@@ -135,37 +126,12 @@ export default {
       Editor,
       Subject,
       title,
-      textEditor,
       options: ["First", "Second", "Thard"],
       model,
-      editorOptions: {
-        modules: {
-          toolbar: [
-            [{ size: [] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ color: [] }, { background: [] }],
-            [{ script: "super" }, { script: "sub" }],
-            [{ header: "1" }, { header: "2" }, "blockquote", "code-block"],
-            [
-              { list: "ordered" },
-              { list: "bullet" },
-              { indent: "-1" },
-              { indent: "+1" },
-            ],
-            [{ direction: "rtl" }, { align: [] }],
-            ["link", "image", "video", "formula"],
-            ["clean"],
-          ],
-        },
-      },
       phone,
       email,
-      val() {
-        textEditor = "Some Text";
-      },
       onSubmit() {
-        if (email.value == null) {
+        if (email.value == null || email.value == "") {
           $q.notify({
             color: "red",
             textColor: "white",
@@ -178,7 +144,7 @@ export default {
         if (
           email.value !== null &&
           Subject.value !== null &&
-          text.value !== null
+          email.value !== ""
         ) {
           $q.notify({
             color: "green",

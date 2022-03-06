@@ -1,6 +1,6 @@
 export default {
   failed: "Action failed",
-  success: "Action was successful",
+  message: "Action was successful",
   title: "Ticket Request",
   subject: "Subject",
   subjectHint: "Please Enter Subject",

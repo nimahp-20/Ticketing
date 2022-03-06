@@ -1,6 +1,6 @@
 export default {
   failed: "عملیات ناموفق",
-  success: "عملیات موفق",
+  message: "عملیات موفق",
   title: "ارسال تیکت",
   subject: "موضوع",
   subjectHint: "لطفا موضوع را بنویسید",
