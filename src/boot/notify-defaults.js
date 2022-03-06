@@ -7,7 +7,7 @@ export default boot(async (/* { app, router, ... } */) => {
   // something to do
   Notify.setDefaults({
     position: 'top',
-    timeout: 3500,
+    timeout: 2500,
     textColor: 'white',
     actions: [{ icon: 'close', color: 'white' }]
   })

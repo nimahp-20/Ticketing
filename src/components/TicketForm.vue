@@ -4,14 +4,16 @@
       <q-btn label="Tickets" color="green" @click="alert = true" />
       <q-dialog
         v-model="alert"
-        class="col"
         style="font-size: 14px"
         no-backdrop-dismiss
         no-esc-dismiss
       >
-        <q-card style="min-width: 600px">
-          <q-card-section align="center">
-            <div class="text-h6">Tickets</div>
+        <q-card style="min-width: 600px" class="q-pa-md q-gutter-sm">
+          <q-card-section align="center" class="row">
+            <div class="text-h6 col-6">{{ $t("title") }}</div>
+            <div class="col-6">
+              <app-language></app-language>
+            </div>
           </q-card-section>
 
           <q-card-section class="q-pt-none">
@@ -20,8 +22,8 @@
                 <q-input
                   filled
                   v-model="Subject"
-                  label="Subject *"
-                  hint="Enter Subject"
+                  :label="$t('subject')"
+                  :hint="$t('subjectHint')"
                   lazy-rules
                   :rules="[
                     (value) =>
@@ -34,48 +36,34 @@
                   filled
                   v-model="model"
                   :options="options"
-                  label="Priority *"
-                  hint="Select Priority"
+                  :label="$t('Priority')"
+                  :hint="$t('PriorityHint')"
                   :rules="[
                     (value) =>
                       (value !== null && value !== '') ||
-                      'Please Select something',
+                      'Please Select Your Priotity',
                   ]"
                 >
                 </q-select>
               </q-card-section>
               <q-card-section class="col-12">
-                <q-input
-                  style="max-height: 200px"
-                  v-model="text"
-                  filled
-                  clearable
-                  type="textarea"
-                  color="red-12"
-                  label="Enter Text *"
-                  hint="Pleas Enter You Text"
-                  :shadow-text="textareaShadowText"
-                  @keydown="processTextareaFill"
-                  @focus="processTextareaFill"
-                  :rules="[
-                    (value) =>
-                      (value !== null && value !== '') ||
-                      'Please Enter Your text',
-                  ]"
-                ></q-input>
+                <editor
+                  v-model="textEditor"
+                  theme="snow"
+                  :options="editorOptions"
+                ></editor>
               </q-card-section>
 
               <q-card-actions class="col-7">
-                <div class="q-px-sm">Status Notification Via * :</div>
+                <div class="q-px-sm">{{ $t("status") }} :</div>
                 <q-checkbox
                   dense
                   v-model="email"
-                  label="Email"
+                  :label="$t('Email')"
                   color="teal"
                   :rules="[
                     (value) =>
-                      (value !== null && value !== '') ||
-                      'Please Select Options',
+                      (value == null && value == '') || 'Please Select Options',
                   ]"
                 />
               </q-card-actions>
@@ -83,9 +71,9 @@
                 <q-file
                   color="teal"
                   filled
-                  hint="Atach Your Files"
+                  :hint="$t('AtachHint')"
                   v-model="atach"
-                  label="Atachment"
+                  :label="$t('Atach')"
                 >
                   <template v-slot:prepend>
                     <q-icon name="cloud_upload" />
@@ -96,15 +84,14 @@
                 <q-btn
                   style="margin-right: 20px"
                   class="col-1"
-                  label="SubmitTicket"
+                  :label="$t('SubmitTicket')"
                   type="submit"
                   color="primary"
                   @click="checkSubmit"
-                  v-close-popup="false"
                 ></q-btn>
                 <q-btn
                   class="col-3"
-                  label="close"
+                  :label="$t('close')"
                   type="close"
                   color="primary"
                   v-close-popup
@@ -120,24 +107,63 @@
 <script>
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import Language from "./LanguageSwitcher.vue";
+import "@morioh/v-quill-editor/dist/editor.css";
+import Editor from "@morioh/v-quill-editor";
 export default {
   name: "Tickets",
+  components: {
+    appLanguage: Language,
+    editor: Editor,
+  },
   setup() {
     const $q = useQuasar();
+    const textEditor = ref(null);
     const Subject = ref(null);
     const model = ref(null);
     const text = ref(null);
     const email = ref(null);
     const phone = ref(null);
     const alert = ref(false);
+    const title = ref(null);
+    const status = ref(null);
+    const subjectHint = ref(null);
     return {
       alert,
+      status,
+      subjectHint,
+      Editor,
       Subject,
-      text,
+      title,
+      textEditor,
       options: ["First", "Second", "Thard"],
       model,
+      editorOptions: {
+        modules: {
+          toolbar: [
+            [{ size: [] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ color: [] }, { background: [] }],
+            [{ script: "super" }, { script: "sub" }],
+            [{ header: "1" }, { header: "2" }, "blockquote", "code-block"],
+            [
+              { list: "ordered" },
+              { list: "bullet" },
+              { indent: "-1" },
+              { indent: "+1" },
+            ],
+            [{ direction: "rtl" }, { align: [] }],
+            ["link", "image", "video", "formula"],
+            ["clean"],
+          ],
+        },
+      },
       phone,
       email,
+      val() {
+        textEditor = "Some Text";
+      },
       onSubmit() {
         if (email.value == null) {
           $q.notify({
@@ -157,13 +183,13 @@ export default {
           $q.notify({
             color: "green",
             textColor: "white",
-            icon: "cloud-done",
+            icon: "done",
             message: "TicketSubmited",
           });
           $q.notify({
             color: "blue",
             textColor: "white",
-            icon: "cloud-done",
+            icon: "done",
             message: "Your Request Send Please Click on Close button",
           });
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm row">
+  <div class="row justify-center q-gutter-sm">
     <q-select
       v-model="locale"
       :options="localeOptions"
@@ -18,7 +18,6 @@ import { useI18n } from "vue-i18n";
 export default {
   setup() {
     const { locale } = useI18n({ useScope: "global" });
-
     return {
       locale,
       localeOptions: [

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
-    <app-language></app-language>
-    <app-ticket> </app-ticket>
+    <app-ticket></app-ticket>
+    <app-language class="q-pa-md"></app-language>
   </div>
 </template>
 <script>

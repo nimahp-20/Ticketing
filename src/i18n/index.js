@@ -3,5 +3,5 @@ import fa from "./fa";
 
 export default {
   "en-US": enUS,
-  "fa": fa
+  "fa": fa,
 };
