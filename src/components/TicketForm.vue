@@ -7,6 +7,7 @@
         class="col"
         style="font-size: 14px"
         no-backdrop-dismiss
+        no-esc-dismiss
       >
         <q-card style="min-width: 600px">
           <q-card-section align="center">
@@ -66,13 +67,11 @@
 
               <q-card-actions class="col-7">
                 <div class="q-px-sm">Status Notification Via * :</div>
-                <q-checkbox dense v-model="email" label="Email" color="teal" />
-
                 <q-checkbox
                   dense
-                  v-model="phone"
-                  label="Phone"
-                  color="orange"
+                  v-model="email"
+                  label="Email"
+                  color="teal"
                   :rules="[
                     (value) =>
                       (value !== null && value !== '') ||
@@ -93,13 +92,18 @@
                   </template>
                 </q-file>
               </q-card-section>
-              <q-card-section align="center" class="col-12">
+              <q-card-section align="center" class="col-11">
                 <q-btn
+                  style="margin-right: 20px"
+                  class="col-1"
                   label="SubmitTicket"
                   type="submit"
                   color="primary"
+                  @click="checkSubmit"
+                  v-close-popup="false"
                 ></q-btn>
                 <q-btn
+                  class="col-3"
                   label="close"
                   type="close"
                   color="primary"
@@ -135,19 +139,32 @@ export default {
       phone,
       email,
       onSubmit() {
-        if (phone.value == null && email.value == null) {
+        if (email.value == null) {
           $q.notify({
             color: "red",
             textColor: "white",
             icon: "warning",
-            message: "Please Select Phone or Email",
+            message: "Please Select Email",
           });
-        } else {
+        }
+      },
+      checkSubmit() {
+        if (
+          email.value !== null &&
+          Subject.value !== null &&
+          text.value !== null
+        ) {
           $q.notify({
             color: "green",
             textColor: "white",
             icon: "cloud-done",
             message: "TicketSubmited",
+          });
+          $q.notify({
+            color: "blue",
+            textColor: "white",
+            icon: "cloud-done",
+            message: "Your Request Send Please Click on Close button",
           });
         }
       },
