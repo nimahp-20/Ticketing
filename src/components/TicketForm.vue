@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="q-pa-md q-gutter-sm row">
-      <q-btn label="Tickets" color="green" @click="alert = true" />
+      <q-btn
+        :label="$t('tickets.sendTicket')"
+        color="green"
+        @click="alert = true"
+      />
       <q-dialog
         v-model="alert"
         style="font-size: 14px"
@@ -10,7 +14,7 @@
       >
         <q-card style="min-width: 600px" class="q-pa-md q-gutter-sm">
           <q-card-section align="center" class="row">
-            <div class="text-h6 col-6">{{ $t("title") }}</div>
+            <div class="text-h6 col-6">{{ $t("tickets.title") }}</div>
             <div class="col-6">
               <app-language></app-language>
             </div>
@@ -22,8 +26,8 @@
                 <q-input
                   filled
                   v-model="Subject"
-                  :label="$t('subject')"
-                  :hint="$t('subjectHint')"
+                  :label="$t('tickets.subject')"
+                  :hint="$t('tickets.subjectHint')"
                   lazy-rules
                   :rules="[
                     (value) =>
@@ -34,10 +38,10 @@
               <q-card-section class="col-6">
                 <q-select
                   filled
-                  v-model="model"
-                  :options="options"
-                  :label="$t('Priority')"
-                  :hint="$t('PriorityHint')"
+                  v-model="items"
+                  :options="localItems"
+                  :label="$t('tickets.Priority')"
+                  :hint="$t('tickets.PriorityHint')"
                   :rules="[
                     (value) =>
                       (value !== null && value !== '') ||
@@ -49,11 +53,11 @@
               <q-card-section class="col-12"> </q-card-section>
 
               <q-card-actions class="col-7">
-                <div class="q-px-sm">{{ $t("status") }} :</div>
+                <div class="q-px-sm">{{ $t("tickets.status") }} :</div>
                 <q-checkbox
                   dense
                   v-model="email"
-                  :label="$t('Email')"
+                  :label="$t('tickets.Email')"
                   color="teal"
                   :rules="[
                     (value) =>
@@ -65,9 +69,9 @@
                 <q-file
                   color="teal"
                   filled
-                  :hint="$t('AtachHint')"
+                  :hint="$t('tickets.AtachHint')"
                   v-model="atach"
-                  :label="$t('Atach')"
+                  :label="$t('tickets.Atach')"
                 >
                   <template v-slot:prepend>
                     <q-icon name="cloud_upload" />
@@ -78,14 +82,14 @@
                 <q-btn
                   style="margin-right: 20px"
                   class="col-1"
-                  :label="$t('SubmitTicket')"
+                  :label="$t('tickets.SubmitTicket')"
                   type="submit"
                   color="primary"
                   @click="checkSubmit"
                 ></q-btn>
                 <q-btn
                   class="col-3"
-                  :label="$t('close')"
+                  :label="$t('tickets.close')"
                   type="close"
                   color="primary"
                   v-close-popup
@@ -104,15 +108,20 @@ import { useQuasar } from "quasar";
 import Language from "./LanguageSwitcher.vue";
 import "@morioh/v-quill-editor/dist/editor.css";
 import Editor from "@morioh/v-quill-editor";
+import { useI18n } from "vue-i18n";
 export default {
   name: "Tickets",
   components: {
     appLanguage: Language,
   },
   setup() {
+    const { t } = useI18n({
+      useScope: "global",
+    });
     const $q = useQuasar();
     const Subject = ref(null);
     const model = ref(null);
+    const items = ref(null);
     const email = ref(null);
     const phone = ref(null);
     const alert = ref(false);
@@ -126,7 +135,13 @@ export default {
       Editor,
       Subject,
       title,
-      options: ["First", "Second", "Thard"],
+      t,
+      items,
+      localItems: [
+        { locale: "fa", label: t("options.high") },
+        { locale: "fa", label: t("options.medium") },
+        { locale: "fa", label: t("options.low") },
+      ],
       model,
       phone,
       email,
@@ -136,7 +151,7 @@ export default {
             color: "red",
             textColor: "white",
             icon: "warning",
-            message: "Please Select Email",
+            message: t("tickets.failed"),
           });
         }
       },
@@ -150,13 +165,13 @@ export default {
             color: "green",
             textColor: "white",
             icon: "done",
-            message: "TicketSubmited",
+            message: t("tickets.message"),
           });
           $q.notify({
             color: "blue",
             textColor: "white",
             icon: "done",
-            message: "Your Request Send Please Click on Close button",
+            message: t("tickets.successClose"),
           });
         }
       },
