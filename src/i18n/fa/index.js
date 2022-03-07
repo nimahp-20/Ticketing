@@ -1,6 +1,6 @@
 export default {
   tickets: {
-    failed: "عملیات ناموفق",
+    failed: "عملیات ناموفق ایمیل را انتخاب کنید",
     message: "عملیات موفق",
     successClose: "تیکت شما ارسال شد لطفا صفحه را ببندید",
     title: "ارسال تیکت",

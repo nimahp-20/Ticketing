@@ -1,6 +1,6 @@
 export default {
   tickets: {
-    failed: "Action failed",
+    failed: "Action Failed Select Email",
     message: "Action was successful",
     successClose: "Your Ticket Sended Please Close Page",
     title: "Ticket Request",

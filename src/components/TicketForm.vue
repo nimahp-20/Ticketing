@@ -42,6 +42,8 @@
                   :options="localItems"
                   :label="$t('tickets.Priority')"
                   :hint="$t('tickets.PriorityHint')"
+                  borderless
+                  emit-value
                   :rules="[
                     (value) =>
                       (value !== null && value !== '') ||
@@ -114,6 +116,24 @@ export default {
   components: {
     appLanguage: Language,
   },
+  watch: {
+    "$i18n.locale": function () {
+      this.localItems = [
+        { label: this.$i18n.t("options.high") },
+        { label: this.$i18n.t("options.medium") },
+        { label: this.$i18n.t("options.low") },
+      ];
+    },
+  },
+  data() {
+    return {
+      localItems: [
+        { label: this.$i18n.t("options.high") },
+        { label: this.$i18n.t("options.medium") },
+        { label: this.$i18n.t("options.low") },
+      ],
+    };
+  },
   setup() {
     const { t } = useI18n({
       useScope: "global",
@@ -128,6 +148,7 @@ export default {
     const title = ref(null);
     const status = ref(null);
     const subjectHint = ref(null);
+
     return {
       alert,
       status,
@@ -137,11 +158,6 @@ export default {
       title,
       t,
       items,
-      localItems: [
-        { locale: "fa", label: t("options.high") },
-        { locale: "fa", label: t("options.medium") },
-        { locale: "fa", label: t("options.low") },
-      ],
       model,
       phone,
       email,
