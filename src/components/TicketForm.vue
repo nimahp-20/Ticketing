@@ -12,7 +12,7 @@
         no-backdrop-dismiss
         no-esc-dismiss
       >
-        <q-card style="min-width: 600px" class="q-pa-md q-gutter-sm">
+        <q-card class="q-pa-md q-gutter-sm height-width">
           <q-card-section align="center" class="row">
             <div class="text-h6 col-6">{{ $t("tickets.title") }}</div>
             <div class="col-6">
@@ -25,6 +25,7 @@
               <q-card-section class="col-6">
                 <q-input
                   filled
+                  dense
                   v-model="Subject"
                   :label="$t('tickets.subject')"
                   :hint="$t('tickets.subjectHint')"
@@ -38,6 +39,7 @@
               <q-card-section class="col-6">
                 <q-select
                   filled
+                  dense
                   v-model="items"
                   :options="localItems"
                   :label="$t('tickets.Priority')"
@@ -52,24 +54,29 @@
                 >
                 </q-select>
               </q-card-section>
-              <q-card-section class="col-12"> </q-card-section>
+              <q-card-section class="col-12">
+                <QuillEditor :options="options" />
+              </q-card-section>
 
-              <q-card-actions class="col-7">
+              <q-card-actions class="col-7" style="margin-top: 80px">
                 <div class="q-px-sm">{{ $t("tickets.status") }} :</div>
                 <q-checkbox
-                  dense
                   v-model="email"
+                  dense
                   :label="$t('tickets.Email')"
                   color="teal"
                   :rules="[
                     (value) =>
                       (value == null && value == '') || 'Please Select Options',
+                    $t('tickets.status'),
                   ]"
                 />
               </q-card-actions>
               <q-card-section class="col-4">
                 <q-file
+                  style="margin-top: 80px"
                   color="teal"
+                  dense
                   filled
                   :hint="$t('tickets.AtachHint')"
                   v-model="atach"
@@ -108,13 +115,15 @@
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 import Language from "./LanguageSwitcher.vue";
-import "@morioh/v-quill-editor/dist/editor.css";
-import Editor from "@morioh/v-quill-editor";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { useI18n } from "vue-i18n";
 export default {
   name: "Tickets",
   components: {
     appLanguage: Language,
+    QuillEditor,
   },
   watch: {
     "$i18n.locale": function () {
@@ -127,11 +136,41 @@ export default {
   },
   data() {
     return {
+      toolbarOptons: [
+        ["italic", "underline", "strike"],
+        ["blockquote", "code-block"],
+      ],
       localItems: [
         { label: this.$i18n.t("options.high") },
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ],
+      options: {
+        debug: "info",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block"],
+            [{ header: 1 }, { header: 2 }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ direction: "rtl" }],
+
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }],
+            [{ font: [] }],
+            [{ align: [] }],
+
+            ["clean"],
+          ],
+        },
+        placeholder: "Compose an epic...",
+        readOnly: false,
+        theme: "snow",
+      },
     };
   },
   setup() {
@@ -153,7 +192,6 @@ export default {
       alert,
       status,
       subjectHint,
-      Editor,
       Subject,
       title,
       t,
@@ -175,7 +213,11 @@ export default {
         if (
           email.value !== null &&
           Subject.value !== null &&
-          email.value !== ""
+          email.value !== "" &&
+          items.value !== null &&
+          Subject.value !== null &&
+          Subject.value !== "" &&
+          email.value !== false
         ) {
           $q.notify({
             color: "green",
@@ -189,6 +231,20 @@ export default {
             icon: "done",
             message: t("tickets.successClose"),
           });
+        } else if (Subject.value == null || Subject.value == "") {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            icon: "warning",
+            message: t("tickets.subjectHint"),
+          });
+        } else if (items.value == null) {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            icon: "warning",
+            message: t("tickets.PriorityHint"),
+          });
         }
       },
     };
@@ -196,4 +252,8 @@ export default {
 };
 </script>
 <style scoped>
+.height-width {
+  min-width: 600px;
+  min-height: 600px;
+}
 </style>
