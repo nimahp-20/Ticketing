@@ -72,14 +72,12 @@
                   ]"
                 />
               </q-card-actions>
-              <q-card-section class="col-4">
+              <q-card-section class="col-4" style="margin-top: 80px">
                 <q-file
-                  style="margin-top: 80px"
                   color="teal"
                   dense
                   filled
                   :hint="$t('tickets.AtachHint')"
-                  v-model="atach"
                   :label="$t('tickets.Atach')"
                 >
                   <template v-slot:prepend>
@@ -94,14 +92,14 @@
                   :label="$t('tickets.SubmitTicket')"
                   type="submit"
                   color="primary"
-                  @click="checkSubmit"
+                  @click="checkSubmit()"
                 ></q-btn>
                 <q-btn
                   class="col-3"
                   :label="$t('tickets.close')"
                   type="close"
                   color="primary"
-                  v-close-popup
+                  @click="alert = false"
                 ></q-btn>
               </q-card-section>
             </q-form>
@@ -117,7 +115,6 @@ import { useQuasar } from "quasar";
 import Language from "./LanguageSwitcher.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { useI18n } from "vue-i18n";
 export default {
   name: "Tickets",
@@ -125,29 +122,15 @@ export default {
     appLanguage: Language,
     QuillEditor,
   },
-  watch: {
-    "$i18n.locale": function () {
-      this.localItems = [
-        { label: this.$i18n.t("options.high") },
-        { label: this.$i18n.t("options.medium") },
-        { label: this.$i18n.t("options.low") },
-      ];
-      this.items = this.localItems.value;
-    },
-  },
+
   data() {
     return {
-      toolbarOptons: [
-        ["italic", "underline", "strike"],
-        ["blockquote", "code-block"],
-      ],
       localItems: [
         { label: this.$i18n.t("options.high") },
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ],
       options: {
-        debug: "info",
         modules: {
           toolbar: [
             ["bold", "italic", "underline", "strike"],
@@ -168,11 +151,20 @@ export default {
             ["clean"],
           ],
         },
-        placeholder: "Compose an epic...",
         readOnly: false,
         theme: "snow",
       },
     };
+  },
+  watch: {
+    "$i18n.locale": function () {
+      this.localItems = [
+        { label: this.$i18n.t("options.high") },
+        { label: this.$i18n.t("options.medium") },
+        { label: this.$i18n.t("options.low") },
+      ];
+      this.items = this.localItems.label;
+    },
   },
   setup() {
     const { t } = useI18n({
@@ -221,17 +213,22 @@ export default {
           email.value !== false
         ) {
           $q.notify({
-            color: "green",
-            textColor: "white",
-            icon: "done",
-            message: t("tickets.message"),
-          });
-          $q.notify({
             color: "blue",
-            textColor: "white",
-            icon: "done",
-            message: t("tickets.successClose"),
+            spinner: true,
+            message: "Please wait...",
+            timeout: 1000,
           });
+          setTimeout(() => {
+            $q.notify({
+              color: "green",
+              textColor: "white",
+              icon: "done",
+              message: t("tickets.message"),
+            });
+          }, 1300);
+          setTimeout(() => {
+            this.alert = false;
+          }, 1200);
         } else if (Subject.value == null || Subject.value == "") {
           $q.notify({
             color: "red",
@@ -239,7 +236,7 @@ export default {
             icon: "warning",
             message: t("tickets.subjectHint"),
           });
-        } else if (items.value == null && items.value == "") {
+        } else if (items.value == null || items.value == "") {
           $q.notify({
             color: "red",
             textColor: "white",
