@@ -64,7 +64,7 @@
                   v-model="email"
                   dense
                   :label="$t('tickets.Email')"
-                  color="teal"
+                  color="blue-10"
                   :rules="[
                     (value) =>
                       (value == null && value == '') || 'Please Select Options',
@@ -74,7 +74,7 @@
               </q-card-actions>
               <q-card-section class="col-4" style="margin-top: 80px">
                 <q-file
-                  color="teal"
+                  color="blue-10-4"
                   dense
                   filled
                   :hint="$t('tickets.AtachHint')"
@@ -99,7 +99,7 @@
                   :label="$t('tickets.close')"
                   type="close"
                   color="primary"
-                  @click="alert = false"
+                  v-close-popup
                 ></q-btn>
               </q-card-section>
             </q-form>
@@ -163,7 +163,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
-      this.items = this.localItems.label;
+      // this.items = this.localItems.value;
     },
   },
   setup() {
@@ -205,8 +205,9 @@ export default {
       checkSubmit() {
         if (
           email.value !== null &&
-          Subject.value !== null &&
           email.value !== "" &&
+          items.value !== "" &&
+          items.value !== false &&
           items.value !== null &&
           Subject.value !== null &&
           Subject.value !== "" &&
@@ -215,8 +216,8 @@ export default {
           $q.notify({
             color: "blue",
             spinner: true,
-            message: "Please wait...",
-            timeout: 1000,
+            message: t("tickets.waiting"),
+            timeout: 30,
           });
           setTimeout(() => {
             $q.notify({
@@ -225,10 +226,10 @@ export default {
               icon: "done",
               message: t("tickets.message"),
             });
-          }, 1300);
+          }, 700);
           setTimeout(() => {
             this.alert = false;
-          }, 1200);
+          }, 700);
         } else if (Subject.value == null || Subject.value == "") {
           $q.notify({
             color: "red",

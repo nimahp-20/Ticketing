@@ -15,6 +15,8 @@ export default {
     close: "Close",
     SubmitTicket: "SubmitTicket",
     sendTicket: "Send Ticket",
+    waiting: "PleaseWait...",
+    hint: "Please Select Priority"
   },
   options: {
     high: "High",

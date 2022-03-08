@@ -16,6 +16,7 @@ export default {
     SubmitTicket: "ارسال تیکت",
     sendTicket: "ارسال تیکت",
     firstOption: "بالا",
+    waiting: "لطفا منتظر بمانید..."
   },
   options: {
     high: "بالا",
