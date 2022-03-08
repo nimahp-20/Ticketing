@@ -132,6 +132,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
+      this.items = this.localItems.value;
     },
   },
   data() {
@@ -238,7 +239,7 @@ export default {
             icon: "warning",
             message: t("tickets.subjectHint"),
           });
-        } else if (items.value == null) {
+        } else if (items.value == null && items.value == "") {
           $q.notify({
             color: "red",
             textColor: "white",
