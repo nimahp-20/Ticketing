@@ -12,10 +12,10 @@
         no-backdrop-dismiss
         no-esc-dismiss
       >
-        <q-card class="q-pa-md q-gutter-sm height-width">
+        <q-card class="q-pa q-gutter height-width">
           <q-card-section align="center" class="row">
             <div class="text-h6 col-6">{{ $t("tickets.title") }}</div>
-            <div class="col-6">
+            <div class="col-6 q-pa q-gutter">
               <app-language></app-language>
             </div>
           </q-card-section>
@@ -66,8 +66,8 @@
                   :label="$t('tickets.Email')"
                   color="blue-10"
                   :rules="[
-                    (value) =>
-                      (value == null && value == '') || 'Please Select Options',
+                    (value) => (value == null && value == '') || value == false,
+                    'Please Select Options',
                     $t('tickets.status'),
                   ]"
                 />
@@ -214,14 +214,14 @@ export default {
           email.value !== false
         ) {
           $q.notify({
-            color: "blue",
+            color: "amber-9",
             spinner: true,
             message: t("tickets.waiting"),
             timeout: 30,
           });
           setTimeout(() => {
             $q.notify({
-              color: "green",
+              color: "green-8",
               textColor: "white",
               icon: "done",
               message: t("tickets.message"),

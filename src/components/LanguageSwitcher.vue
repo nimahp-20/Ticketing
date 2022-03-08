@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center q-gutter-sm">
+  <div class="row justify-center q-gutter">
     <q-select
       v-model="locale"
       :options="localeOptions"
