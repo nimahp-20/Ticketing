@@ -20,7 +20,7 @@
             </div>
           </q-card-section>
 
-          <q-card-section class="q-pt-none">
+          <q-card-section class="q-pt-none q-gutter">
             <q-form @submit="onSubmit" class="row">
               <q-card-section class="col-6">
                 <q-input
@@ -152,7 +152,7 @@ export default {
           ],
         },
         readOnly: false,
-        theme: "snow",
+        theme: "base",
       },
     };
   },
