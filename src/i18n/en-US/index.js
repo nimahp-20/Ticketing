@@ -16,7 +16,8 @@ export default {
     SubmitTicket: "SubmitTicket",
     sendTicket: "Send Ticket",
     waiting: "PleaseWait...",
-    hint: "Please Select Priority"
+    hint: "Please Select Priority",
+    textEditor: "Please Type Somthing",
   },
   options: {
     high: "High",

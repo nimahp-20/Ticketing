@@ -55,7 +55,15 @@
                 </q-select>
               </q-card-section>
               <q-card-section class="col-12">
-                <QuillEditor :options="options" />
+                <QuillEditor
+                  :options="options"
+                  v-model:contet="textEditor"
+                  content-type="text"
+                  :rules="[
+                    (value) =>
+                      (value !== null && value !== '') || value !== false,
+                  ]"
+                />
               </q-card-section>
 
               <q-card-actions class="col-7" style="margin-top: 80px">
@@ -130,6 +138,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ],
+
       options: {
         modules: {
           toolbar: [
@@ -156,6 +165,7 @@ export default {
       },
     };
   },
+
   watch: {
     "$i18n.locale": function () {
       this.localItems = [
@@ -163,7 +173,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
-      // this.items = this.localItems.value;
+      this.items = this.localItems.value;
     },
   },
   setup() {
@@ -177,12 +187,14 @@ export default {
     const email = ref(null);
     const phone = ref(null);
     const alert = ref(false);
+    const textEditor = ref("");
     const title = ref(null);
     const status = ref(null);
     const subjectHint = ref(null);
 
     return {
       alert,
+      textEditor,
       status,
       subjectHint,
       Subject,
@@ -211,7 +223,10 @@ export default {
           items.value !== null &&
           Subject.value !== null &&
           Subject.value !== "" &&
-          email.value !== false
+          email.value !== false &&
+          textEditor.value !== null &&
+          textEditor.value !== "" &&
+          textEditor.value !== false
         ) {
           $q.notify({
             color: "amber-9",
@@ -230,6 +245,7 @@ export default {
           setTimeout(() => {
             this.alert = false;
           }, 700);
+          console.log(textEditor);
         } else if (Subject.value == null || Subject.value == "") {
           $q.notify({
             color: "red",
@@ -243,6 +259,13 @@ export default {
             textColor: "white",
             icon: "warning",
             message: t("tickets.PriorityHint"),
+          });
+        } else if ((textEditor.value == null || textEditor.value) == "") {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            icon: "warning",
+            message: t("tickets.textEditor"),
           });
         }
       },
