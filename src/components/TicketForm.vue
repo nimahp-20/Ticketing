@@ -163,7 +163,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
-      // this.items = this.localItems.value;
+      this.items = this.localItems.value;
     },
   },
   setup() {
