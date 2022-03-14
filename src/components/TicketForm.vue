@@ -48,25 +48,26 @@
                   emit-value
                   :rules="[
                     (value) =>
-                      (value !== null && value !== '') ||
+                      (value == null && value == '') ||
                       'Please Select Your Priotity',
+                    $t('tickets.priority'),
                   ]"
                 >
                 </q-select>
               </q-card-section>
               <q-card-section class="col-12">
                 <QuillEditor
+                  style="height: 180px"
+                  dir="rtl"
+                  align="right"
                   :options="options"
-                  v-model:contet="textEditor"
-                  content-type="text"
-                  :rules="[
-                    (value) =>
-                      (value !== null && value !== '') || value !== false,
-                  ]"
+                  contentType="delta"
+                  v-model:content="textEditor"
+                  :hint="$t('tickets.textEditor')"
                 />
               </q-card-section>
 
-              <q-card-actions class="col-7" style="margin-top: 80px">
+              <q-card-actions class="col-7">
                 <div class="q-px-sm">{{ $t("tickets.status") }} :</div>
                 <q-checkbox
                   v-model="email"
@@ -80,7 +81,7 @@
                   ]"
                 />
               </q-card-actions>
-              <q-card-section class="col-4" style="margin-top: 80px">
+              <q-card-section class="col-4">
                 <q-file
                   color="blue-10-4"
                   dense
@@ -121,9 +122,9 @@
 import { ref } from "vue";
 import { useQuasar } from "quasar";
 import Language from "./LanguageSwitcher.vue";
+import { useI18n } from "vue-i18n";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import { useI18n } from "vue-i18n";
 export default {
   name: "Tickets",
   components: {
@@ -138,30 +139,13 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ],
-
       options: {
         modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            ["blockquote", "code-block"],
-            [{ header: 1 }, { header: 2 }],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ direction: "rtl" }],
-
-            [{ size: ["small", false, "large", "huge"] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ color: [] }, { background: [] }],
-            [{ font: [] }],
-            [{ align: [] }],
-
-            ["clean"],
-          ],
+          toolbar: [["bold"], [{ size: ["small", false, "large", "huge"] }]],
         },
+        placeholder: "Type Something",
         readOnly: false,
-        theme: "base",
+        theme: "snow",
       },
     };
   },
