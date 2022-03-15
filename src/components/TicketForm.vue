@@ -55,15 +55,7 @@
                 </q-select>
               </q-card-section>
               <q-card-section class="col-12">
-                <QuillEditor
-                  :options="options"
-                  v-model:contet="textEditor"
-                  content-type="text"
-                  :rules="[
-                    (value) =>
-                      (value !== null && value !== '') || value !== false,
-                  ]"
-                />
+                <QuillEditor :options="options" />
               </q-card-section>
 
               <q-card-actions class="col-7" style="margin-top: 80px">
@@ -223,10 +215,7 @@ export default {
           items.value !== null &&
           Subject.value !== null &&
           Subject.value !== "" &&
-          email.value !== false &&
-          textEditor.value !== null &&
-          textEditor.value !== "" &&
-          textEditor.value !== false
+          email.value !== false
         ) {
           $q.notify({
             color: "amber-9",
@@ -259,13 +248,6 @@ export default {
             textColor: "white",
             icon: "warning",
             message: t("tickets.PriorityHint"),
-          });
-        } else if ((textEditor.value == null || textEditor.value) == "") {
-          $q.notify({
-            color: "red",
-            textColor: "white",
-            icon: "warning",
-            message: t("tickets.textEditor"),
           });
         }
       },
