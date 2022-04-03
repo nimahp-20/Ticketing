@@ -50,6 +50,7 @@
                     (value) =>
                       (value == null && value == '') ||
                       'Please Select Your Priotity',
+                    $t('tickets.Priority'),
                   ]"
                 >
                 </q-select>
@@ -156,7 +157,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
-      // this.items = this.localItems.value;
+      this.items = this.localItems.value;
     },
   },
   setup() {
