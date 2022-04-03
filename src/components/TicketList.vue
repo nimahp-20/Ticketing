@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm q-ma-xs col-12 justify-center">
+  <div class="q-pa-md q-ma-xs col-12 justify-center">
     <div>
       <q-table
         :rows="rows"
@@ -22,10 +22,46 @@
         <template v-slot:body-cell-priority="props">
           <q-td :props="props">
             <div>
-              <q-badge color="purple" :label="props.value"></q-badge>
+              <q-badge
+                :label="props.value"
+                :class="
+                  props.value === 'High'
+                    ? 'priority-high '
+                    : 'bg-white text-black' && props.value === 'Low'
+                    ? 'priority-low '
+                    : 'bg-white text-black' && props.value === 'Medium'
+                    ? 'priority-medium '
+                    : 'bg-white text-black'
+                "
+              >
+              </q-badge>
             </div>
-            <div class="my-table-details">
-              {{ props.row.delails }}
+          </q-td>
+        </template>
+        <template v-slot:body-cell-number="props">
+          <q-td :props="props" class="sdd">
+            <div>
+              <q-badge class="sdd" :label="props.value"></q-badge>
+            </div>
+          </q-td>
+        </template>
+        <template v-slot:body-cell-status="props">
+          <q-td :props="props">
+            <div>
+              <q-badge
+                :class="
+                  props.value === 'Open'
+                    ? 'status-open'
+                    : 'bg-white text-black' && props.value === 'Closed'
+                    ? 'status-close '
+                    : 'bg-white text-black' && props.value === 'Replied'
+                    ? 'status-replied '
+                    : 'bg-white text-black' && props.value === 'Pending'
+                    ? 'status-pending'
+                    : 'bg-white text-black'
+                "
+                :label="props.value"
+              ></q-badge>
             </div>
           </q-td>
         </template>
@@ -44,7 +80,7 @@ export default {
           name: "number",
           required: true,
           label: "Number",
-          align: "left",
+          align: "center",
           field: (row) => row.number,
           format: (val) => `${val}`,
           sortable: true,
@@ -122,7 +158,7 @@ export default {
           number: 5,
           subject: "This is Fiveth Subject",
           message: "This is a Message For Test ",
-          status: "Close",
+          status: "Closed",
           priority: "Medium",
           date: "20 Jul 2022",
         },
@@ -136,22 +172,29 @@ export default {
   background-color: gray;
   color: white;
 }
+
+.bgnumber {
+  background-color: aqua;
+}
 .borderForms {
   border: 1px solid black;
 }
 
 .priority-high {
-  color: red;
+  color: white;
+  background-color: red;
 }
 .priority-medium {
-  color: orange;
+  color: white;
+  background-color: rgb(221, 197, 87);
 }
 .priority-low {
-  color: green;
+  color: white;
+  background-color: green;
 }
 .status-close {
   color: white;
-  background-color: orangered;
+  background-color: red;
 }
 .status-open {
   color: white;
@@ -159,10 +202,19 @@ export default {
 }
 .status-replied {
   color: white;
-  background-color: blue;
+  background-color: rgb(0, 140, 255);
+}
+.status-pending {
+  color: white;
+  background-color: black;
 }
 .sdd {
-  background-color: gray;
+  background-color: #6f00ff;
   color: white;
+  font-size: 15px;
+}
+.badge-clor {
+  color: white;
+  background-color: transparent;
 }
 </style>

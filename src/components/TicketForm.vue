@@ -50,7 +50,6 @@
                     (value) =>
                       (value == null && value == '') ||
                       'Please Select Your Priotity',
-                    $t('tickets.priority'),
                   ]"
                 >
                 </q-select>
@@ -157,7 +156,7 @@ export default {
         { label: this.$i18n.t("options.medium") },
         { label: this.$i18n.t("options.low") },
       ];
-      this.items = this.localItems.value;
+      // this.items = this.localItems.value;
     },
   },
   setup() {
@@ -237,19 +236,34 @@ export default {
             icon: "warning",
             message: t("tickets.subjectHint"),
           });
-        } else if (items.value == null || items.value == "") {
+        } else if (
+          items.value == null ||
+          items.value == "" ||
+          items.value == false
+        ) {
           $q.notify({
             color: "red",
             textColor: "white",
             icon: "warning",
             message: t("tickets.PriorityHint"),
           });
-        } else if ((textEditor.value == null || textEditor.value) == "") {
+        } else if (textEditor.value == null || textEditor.value == "") {
           $q.notify({
             color: "red",
             textColor: "white",
             icon: "warning",
             message: t("tickets.textEditor"),
+          });
+        } else if (
+          email.value == false ||
+          email.value == "" ||
+          email.value == null
+        ) {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            icon: "warning",
+            message: t("tickets.status"),
           });
         }
       },
