@@ -80,15 +80,15 @@ function GetTickets() {
 
 function GetTicketDetails() {
   return {
-    id: 1005, subject: 'این تیکت تست است', statusId: "Open", createdDate: '1400/12/01',
-    lastReplyDate: '1400/12/12', closedDate: null, priority: "High",
+    id: 1005, subject: 'این تیکت تست است', statusId: "باز", createdDate: '1400/12/01',
+    lastReplyDate: '1400/12/12', closedDate: null, priority: "زیاد",
     lastReplyByEnglish: 'Nima hadipour', lastReplyByLocal: 'نیما هادی پور',
     messages: [
       {
         date: '1400/12/01', htmltext: 'این یک متن پیش فرض است', summary: 'خالی', from: 'Ehsan',
       },
       {
-        date: '1400/12/01', htmltext: 'متن پیش فرض', summary: '', from: 'Mohammad',
+        date: '1400/12/01', htmltext: 'متن پیش فرض', summary: 'آشکار', from: 'Mohammad',
       },
     ],
   }
