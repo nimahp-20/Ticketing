@@ -38,14 +38,14 @@
             </div>
           </q-td>
         </template>
-        <template v-slot:body-cell-number="props">
-          <q-td :props="props" class="sdd">
+        <template v-slot:body-cell-Id="props">
+          <q-td :props="props" class="sdd pontr" @click="GetDetails()">
             <div>
               <q-badge class="sdd" :label="props.value"></q-badge>
             </div>
           </q-td>
         </template>
-        <template v-slot:body-cell-status="props">
+        <template v-slot:body-cell-statusId="props">
           <q-td :props="props">
             <div>
               <q-badge
@@ -71,17 +71,18 @@
 </template>
 <script>
 import { ref } from "vue";
+import { GetTickets, GetTicketDetails } from "src/services/Tickets";
 export default {
   data() {
     return {
       separator: ref("cell"),
       columns: [
         {
-          name: "number",
+          name: "Id",
           required: true,
-          label: "Number",
+          label: "ID",
           align: "center",
-          field: (row) => row.number,
+          field: (row) => row.id,
           format: (val) => `${val}`,
           sortable: true,
         },
@@ -92,17 +93,26 @@ export default {
           field: "subject",
           sortable: true,
         },
+
         {
-          name: "message",
-          label: "Message",
-          field: "message",
+          name: "createdDate",
+          label: "CreatedDate",
+          field: "createdDate",
+          sortable: true,
+          align: "center",
+        },
+
+        {
+          name: "closedDate",
+          label: "ClosedDate",
+          field: "closedDate",
           sortable: true,
           align: "center",
         },
         {
-          name: "status",
-          label: "Status",
-          field: "status",
+          name: "lastReplyDate",
+          label: "LastReplyDate",
+          field: "lastReplyDate",
           sortable: true,
           align: "center",
         },
@@ -114,56 +124,37 @@ export default {
           align: "center",
         },
         {
-          name: "date",
-          label: "Date",
-          field: "date",
+          name: "statusId",
+          label: "StatusId",
+          field: "statusId",
+          sortable: true,
+          align: "center",
+        },
+        {
+          name: "lastReplyByEnglish",
+          label: "LastReplyByEnglish",
+          field: "lastReplyByEnglish",
+          sortable: true,
+          align: "center",
+        },
+        {
+          name: "lastReplyByLocal",
+          label: "LastReplyByLocal",
+          field: "lastReplyByLocal",
           sortable: true,
           align: "center",
         },
       ],
-      rows: [
-        {
-          number: 1,
-          subject: "This is First Subject",
-          message: "This is Random Message",
-          status: "Open",
-          priority: "High",
-          date: "24 Jul 2022",
-        },
-        {
-          number: 2,
-          subject: "This is Second Subject",
-          message: "This is Random Message",
-          status: "Open",
-          priority: "Medium",
-          date: "17 Jul 2022",
-        },
-        {
-          number: 3,
-          subject: "This is Thard Subject",
-          message: "Why my Question is Hard",
-          status: "Pending",
-          priority: "High",
-          date: "12 Jul 2022",
-        },
-        {
-          number: 4,
-          subject: "This is Forth Subject",
-          message: "Let Me Know What im Tallking About",
-          status: "Replied",
-          priority: "Low",
-          date: "16 Jul 2022",
-        },
-        {
-          number: 5,
-          subject: "This is Fiveth Subject",
-          message: "This is a Message For Test ",
-          status: "Closed",
-          priority: "Medium",
-          date: "20 Jul 2022",
-        },
-      ],
+      rows: [],
     };
+  },
+  methods: {
+    GetDetails() {
+      this.$router.push("/Details");
+    },
+  },
+  mounted() {
+    this.rows = GetTickets();
   },
 };
 </script>
@@ -209,9 +200,12 @@ export default {
   background-color: black;
 }
 .sdd {
-  background-color: #6f00ff;
+  background-color: #6147d4;
   color: white;
   font-size: 15px;
+}
+.pontr {
+  cursor: pointer;
 }
 .badge-clor {
   color: white;

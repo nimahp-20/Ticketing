@@ -28,11 +28,10 @@
                   dense
                   v-model="Subject"
                   :label="$t('tickets.subject')"
-                  :hint="$t('tickets.subjectHint')"
                   lazy-rules
                   :rules="[
                     (value) =>
-                      (value && value.length > 0) || 'Please type something',
+                      (value && value.length > 0) || $t('tickets.subjectHint'),
                   ]"
                 ></q-input>
               </q-card-section>
@@ -43,14 +42,15 @@
                   v-model="items"
                   :options="localItems"
                   :label="$t('tickets.Priority')"
-                  :hint="$t('tickets.PriorityHint')"
                   borderless
                   emit-value
                   :rules="[
                     (value) =>
-                      (value == null && value == '') ||
-                      'Please Select Your Priotity',
-                    $t('tickets.Priority'),
+                      value.items == false ||
+                      value.items == null ||
+                      value.items == '',
+                    'Please Select Options',
+                    $t('tickets.PriorityHint'),
                   ]"
                 >
                 </q-select>
@@ -63,7 +63,6 @@
                   :options="options"
                   contentType="delta"
                   v-model:content="textEditor"
-                  :hint="$t('tickets.textEditor')"
                 />
               </q-card-section>
 
@@ -75,7 +74,7 @@
                   :label="$t('tickets.Email')"
                   color="blue-10"
                   :rules="[
-                    (value) => (value == null && value == '') || value == false,
+                    (value) => value == null || value == '' || value == false,
                     'Please Select Options',
                     $t('tickets.status'),
                   ]"
