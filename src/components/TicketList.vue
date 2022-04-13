@@ -1,71 +1,82 @@
 <template>
   <div class="q-pa-md q-ma-xs col-12 justify-center">
     <div>
-      <q-table
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-        :separator="separator"
-      >
-        <template v-slot:header="props">
-          <q-tr :props="props">
-            <q-th
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-              class="sdd"
-            >
-              {{ col.label }}
-            </q-th>
-          </q-tr>
-        </template>
-        <template v-slot:body-cell-priority="props">
-          <q-td :props="props">
-            <div>
-              <q-badge
-                :label="props.value"
-                :class="
-                  props.value === 'High'
-                    ? 'priority-high '
-                    : 'bg-white text-black' && props.value === 'Low'
-                    ? 'priority-low '
-                    : 'bg-white text-black' && props.value === 'Medium'
-                    ? 'priority-medium '
-                    : 'bg-white text-black'
-                "
+      <q-responsive :ratio="1">
+        <q-table
+          :rows="rows"
+          :columns="columns"
+          row-key="name"
+          :separator="separator"
+          virtual-scroll
+          :rows-per-page-options="[48]"
+        >
+          <template v-slot:header="props">
+            <q-tr :props="props">
+              <q-th
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                class="sdd"
               >
-              </q-badge>
-            </div>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-Id="props">
-          <q-td :props="props" class="sdd pontr" @click="GetDetails()">
-            <div>
-              <q-badge class="sdd" :label="props.value"></q-badge>
-            </div>
-          </q-td>
-        </template>
-        <template v-slot:body-cell-statusId="props">
-          <q-td :props="props">
-            <div>
-              <q-badge
-                :class="
-                  props.value === 'Open'
-                    ? 'status-open'
-                    : 'bg-white text-black' && props.value === 'Closed'
-                    ? 'status-close '
-                    : 'bg-white text-black' && props.value === 'Replied'
-                    ? 'status-replied '
-                    : 'bg-white text-black' && props.value === 'Pending'
-                    ? 'status-pending'
-                    : 'bg-white text-black'
-                "
-                :label="props.value"
-              ></q-badge>
-            </div>
-          </q-td>
-        </template>
-      </q-table>
+                {{ col.label }}
+              </q-th>
+            </q-tr>
+          </template>
+          <template v-slot:body-cell-priority="props">
+            <q-td :props="props">
+              <div>
+                <q-badge
+                  :label="props.value"
+                  :class="
+                    props.value === 'High'
+                      ? 'priority-high '
+                      : 'bg-white text-black' && props.value === 'Low'
+                      ? 'priority-low '
+                      : 'bg-white text-black' && props.value === 'Medium'
+                      ? 'priority-medium '
+                      : 'bg-white text-black'
+                  "
+                >
+                </q-badge>
+              </div>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-Id="props">
+            <q-td :props="props" class="sdd pontr" @click="GetDetails()">
+              <div>
+                <q-badge class="sdd" :label="props.value"></q-badge>
+              </div>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-details="props">
+            <q-td :props="props" class="pontr" @click="GetDetails()">
+              <div>
+                <q-badge :label="props.value"></q-badge>
+              </div>
+            </q-td>
+          </template>
+          <template v-slot:body-cell-statusId="props">
+            <q-td :props="props">
+              <div>
+                <q-badge
+                  :class="
+                    props.value === 'Open'
+                      ? 'status-open'
+                      : 'bg-white text-black' && props.value === 'Closed'
+                      ? 'status-close '
+                      : 'bg-white text-black' && props.value === 'Replied'
+                      ? 'status-replied '
+                      : 'bg-white text-black' && props.value === 'Pending'
+                      ? 'status-pending'
+                      : 'bg-white text-black'
+                  "
+                  :label="props.value"
+                ></q-badge>
+              </div>
+            </q-td>
+          </template>
+        </q-table>
+      </q-responsive>
     </div>
   </div>
 </template>
@@ -101,14 +112,6 @@ export default {
           sortable: true,
           align: "center",
         },
-
-        {
-          name: "closedDate",
-          label: "ClosedDate",
-          field: "closedDate",
-          sortable: true,
-          align: "center",
-        },
         {
           name: "lastReplyDate",
           label: "LastReplyDate",
@@ -116,6 +119,14 @@ export default {
           sortable: true,
           align: "center",
         },
+        {
+          name: "closedDate",
+          label: "ClosedDate",
+          field: "closedDate",
+          sortable: true,
+          align: "center",
+        },
+
         {
           name: "priority",
           label: "Priority",
@@ -138,9 +149,9 @@ export default {
           align: "center",
         },
         {
-          name: "lastReplyByLocal",
-          label: "LastReplyByLocal",
-          field: "lastReplyByLocal",
+          name: "details",
+          label: "Details",
+          field: "details",
           sortable: true,
           align: "center",
         },
