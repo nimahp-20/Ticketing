@@ -1,112 +1,93 @@
 <template>
   <div>
-    <div class="q-pa-md q-gutter-md justify-center">
-      <q-responsive :ratio="16 / 9">
-        <div class="q-pa-md row q-gutter-md justify-center">
-          <q-card
-            class="q-pa-md q-gutter-md"
-            style="min-width: 800px; max-height: 300px"
-          >
-            <q-card class="q-pa-md justify-center statusbar"
-              >Ticket Status
-            </q-card>
-            <hr />
-            <q-card-section class="row justify-center">
-              <q-card-section class="col-6 justify-center">
-                <div class="col-2">
-                  <span class="spantxt"> ID :</span>
-                  <span class="statusborder">{{ GetTicketDetails.id }}</span>
-                </div>
-                <br />
-                <div class="col-2">
-                  <span class="spantxt"> StatusID :</span>
-                  <span class="statusborder">{{
-                    GetTicketDetails.statusId
-                  }}</span>
-                </div>
-                <br />
-                <div class="col-2">
-                  <span class="spantxt"> Priority :</span>
-                  <span class="statusborder">{{
-                    GetTicketDetails.priority
-                  }}</span>
-                </div>
-                <br />
-              </q-card-section>
-              <q-card-section class="col-6 justify-center">
-                <div class="col-2">
-                  <span class="spantxt"> Subject :</span>
-                  <span class="statusborder">{{
-                    GetTicketDetails.subject
-                  }}</span>
-                </div>
-                <br />
-                <div class="col-2">
-                  <span class="spantxt"> LastReplyByEnglish :</span>
-                  <span class="statusborder"
-                    >{{ GetTicketDetails.lastReplyByEnglish }}
-                  </span>
-                </div>
-                <br />
-                <div class="col-2">
-                  <span class="spantxt"> CreatedDate :</span>
-                  <span class="statusborder">
-                    {{ GetTicketDetails.createdDate }}</span
-                  >
-                  <br />
-                </div>
-              </q-card-section>
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="q-pa-md row q-gutter-md justify-center">
-          <q-card
-            class="q-pa-md q-gutter-md"
-            style="min-width: 800px; height: auto"
-          >
-            <q-card-section>
-              <q-card-section>
-                <div class="text-h6 statusbar">Ticket Chat</div>
-                <div class="text-subtitle2">by User</div>
-              </q-card-section>
-              <div style="min-height: 20vh">
-                <div class="q-pa-md justify-center">
-                  <div style="width: 100%; max-width: 800px">
-                    <q-chat-message
-                      class=""
-                      name="Admin"
-                      :text="['Tell me Your Details']"
-                      sent
-                      bg-color="blue"
-                      stamp="7 minutes ago"
-                    ></q-chat-message>
-                    <q-chat-message
-                      name="User"
-                      :text="[GetTicketDetails.id]"
-                      stamp="7 minutes ago"
-                    ></q-chat-message>
-                    <q-chat-message
-                      name="User"
-                      :text="[GetTicketDetails.priority]"
-                      stamp="7 minutes ago"
-                    ></q-chat-message>
-                    <q-chat-message
-                      name="User"
-                      :text="[GetTicketDetails.statusId]"
-                      stamp="7 minutes ago"
-                    ></q-chat-message>
-                    <q-chat-message
-                      name="User"
-                      :text="[GetTicketDetails.messages]"
-                      stamp="8 minutes ago"
-                    ></q-chat-message>
-                  </div>
-                </div>
+    <div class="q-pa-md row justify-center">
+      <q-card class="q-pa-md col-9">
+        <q-card class="q-pa-md statusbar">Ticket Status </q-card>
+        <hr />
+        <q-card-section class="row">
+          <q-card-section class="col-12 col-md">
+            <div>
+              <span class="spantxt">ID :</span>
+              <span class="statusborder">{{ GetTicketDetails.id }}</span>
+            </div>
+            <br />
+            <div>
+              <span class="spantxt">Status :</span>
+              <span class="statusborder">{{ GetTicketDetails.statusId }}</span>
+            </div>
+            <br />
+            <div>
+              <span class="spantxt">Priority :</span>
+              <span class="statusborder">{{ GetTicketDetails.priority }}</span>
+            </div>
+            <br />
+          </q-card-section>
+          <q-card-section class="col-12 col-md">
+            <div class="col-12">
+              <span class="spantxt">Subject :</span>
+              <span class="statusborder">{{ GetTicketDetails.subject }}</span>
+            </div>
+            <br />
+            <div class="col-12">
+              <span class="spantxt">LastReply :</span>
+              <span class="statusborder"
+                >{{ GetTicketDetails.lastReplyByEnglish }}
+              </span>
+            </div>
+            <br />
+            <div class="col-12">
+              <span class="spantxt"> CreatedDate :</span>
+              <span class="statusborder">
+                {{ GetTicketDetails.createdDate }}</span
+              >
+              <br />
+            </div>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="q-pa-md row justify-center">
+      <q-card class="q-pa-md col-9">
+        <q-card-section>
+          <q-card-section>
+            <div class="text-h6 statusbar">Conversation</div>
+            <div class="text-subtitle2">by User</div>
+          </q-card-section>
+          <div style="min-height: 20vh">
+            <div class="q-pa-md justify-center">
+              <div style="width: 100%">
+                <q-chat-message
+                  name="Admin"
+                  :text="['Tell me Your Details']"
+                  sent
+                  bg-color="blue"
+                  stamp="7 minutes ago"
+                ></q-chat-message>
+                <q-chat-message
+                  name="User"
+                  :text="[GetTicketDetails.id]"
+                  stamp="7 minutes ago"
+                ></q-chat-message>
+                <q-chat-message
+                  name="User"
+                  :text="[GetTicketDetails.priority]"
+                  stamp="7 minutes ago"
+                ></q-chat-message>
+                <q-chat-message
+                  name="User"
+                  :text="[GetTicketDetails.statusId]"
+                  stamp="7 minutes ago"
+                ></q-chat-message>
+                <q-chat-message
+                  name="User"
+                  :text="[GetTicketDetails.messages]"
+                  stamp="8 minutes ago"
+                ></q-chat-message>
               </div>
-            </q-card-section>
-          </q-card>
-        </div>
-      </q-responsive>
+            </div>
+          </div>
+        </q-card-section>
+      </q-card>
     </div>
   </div>
 </template>
@@ -126,8 +107,8 @@ export default {
 </script>
 <style scoped>
 .statusborder {
-  font-size: 16px;
-  color: #2d6aee;
+  font-size: 15px;
+  color: #1976d2;
   font-family: sans-serif;
 }
 .statusbar {
@@ -142,7 +123,7 @@ export default {
 }
 .spantxt {
   color: #000000cb;
-  font-size: 16px;
-  padding: 15px;
+  font-size: 15px;
+  padding: 0px;
 }
 </style>

@@ -6,114 +6,117 @@
         color="green"
         @click="alert = true"
       />
-      <q-dialog
-        v-model="alert"
-        style="font-size: 14px"
-        no-backdrop-dismiss
-        no-esc-dismiss
-      >
-        <q-card class="q-pa q-gutter height-width">
-          <q-card-section align="center" class="row">
-            <div class="text-h6 col-6">{{ $t("tickets.title") }}</div>
-            <div class="col-6 q-pa q-gutter">
-              <app-language></app-language>
-            </div>
-          </q-card-section>
+      <div class="row">
+        <q-dialog
+          v-model="alert"
+          style="font-size: 14px"
+          no-backdrop-dismiss
+          no-esc-dismiss
+        >
+          <q-card class="q-pa-md col mh">
+            <q-card-section align="center" class="row">
+              <div class="text-h6 col-6">{{ $t("tickets.title") }}</div>
+              <div class="col-6 q-pa q-gutter">
+                <app-language></app-language>
+              </div>
+            </q-card-section>
 
-          <q-card-section class="q-pt-none q-gutter">
-            <q-form @submit="onSubmit" class="row">
-              <q-card-section class="col-6">
-                <q-input
-                  filled
-                  dense
-                  v-model="Subject"
-                  :label="$t('tickets.subject')"
-                  lazy-rules
-                  :rules="[
-                    (value) =>
-                      (value && value.length > 0) || $t('tickets.subjectHint'),
-                  ]"
-                ></q-input>
-              </q-card-section>
-              <q-card-section class="col-6">
-                <q-select
-                  filled
-                  dense
-                  v-model="items"
-                  :options="localItems"
-                  :label="$t('tickets.Priority')"
-                  borderless
-                  emit-value
-                  :rules="[
-                    (value) =>
-                      value.items == false ||
-                      value.items == null ||
-                      value.items == '',
-                    'Please Select Options',
-                    $t('tickets.PriorityHint'),
-                  ]"
-                >
-                </q-select>
-              </q-card-section>
-              <q-card-section class="col-12">
-                <QuillEditor
-                  style="height: 180px"
-                  dir="rtl"
-                  align="right"
-                  :options="options"
-                  contentType="delta"
-                  v-model:content="textEditor"
-                />
-              </q-card-section>
+            <q-card-section>
+              <q-form @submit="onSubmit" class="row">
+                <q-card-section class="col-12 col-md">
+                  <q-input
+                    filled
+                    dense
+                    v-model="Subject"
+                    :label="$t('tickets.subject')"
+                    lazy-rules
+                    :rules="[
+                      (value) =>
+                        (value && value.length > 0) ||
+                        $t('tickets.subjectHint'),
+                    ]"
+                  ></q-input>
+                </q-card-section>
+                <q-card-section class="col-12 col-md">
+                  <q-select
+                    filled
+                    dense
+                    v-model="items"
+                    :options="localItems"
+                    :label="$t('tickets.Priority')"
+                    borderless
+                    emit-value
+                    :rules="[
+                      (value) =>
+                        value.items == false ||
+                        value.items == null ||
+                        value.items == '',
+                      'Please Select Options',
+                      $t('tickets.PriorityHint'),
+                    ]"
+                  >
+                  </q-select>
+                </q-card-section>
+                <q-card-section class="col-12">
+                  <QuillEditor
+                    style="height: 120px"
+                    dir="rtl"
+                    align="right"
+                    :options="options"
+                    contentType="delta"
+                    v-model:content="textEditor"
+                  />
+                </q-card-section>
 
-              <q-card-actions class="col-7">
-                <div class="q-px-sm">{{ $t("tickets.status") }} :</div>
-                <q-checkbox
-                  v-model="email"
-                  dense
-                  :label="$t('tickets.Email')"
-                  color="blue-10"
-                  :rules="[
-                    (value) => value == null || value == '' || value == false,
-                    'Please Select Options',
-                    $t('tickets.status'),
-                  ]"
-                />
-              </q-card-actions>
-              <q-card-section class="col-4">
-                <q-file
-                  color="blue-10-4"
-                  dense
-                  filled
-                  :hint="$t('tickets.AtachHint')"
-                  :label="$t('tickets.Atach')"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="cloud_upload" />
-                  </template>
-                </q-file>
-              </q-card-section>
-              <q-card-section align="center" class="col-11">
-                <q-btn
-                  style="margin-right: 20px"
-                  class="col-1"
-                  :label="$t('tickets.SubmitTicket')"
-                  type="submit"
-                  color="primary"
-                  @click="checkSubmit()"
-                ></q-btn>
-                <q-btn
-                  class="col-3"
-                  :label="$t('tickets.close')"
-                  type="close"
-                  color="primary"
-                  v-close-popup
-                ></q-btn>
-              </q-card-section>
-            </q-form>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+                <q-card-actions class="col-12 col-md">
+                  <div class="q-px-sm">{{ $t("tickets.status") }} :</div>
+                  <q-checkbox
+                    v-model="email"
+                    dense
+                    :label="$t('tickets.Email')"
+                    color="blue-10"
+                    :rules="[
+                      (value) => value == null || value == '' || value == false,
+                      'Please Select Options',
+                      $t('tickets.status'),
+                    ]"
+                  />
+                </q-card-actions>
+                <q-card-section class="col-12 col-md">
+                  <q-file
+                    color="blue-10-4"
+                    dense
+                    filled
+                    :hint="$t('tickets.AtachHint')"
+                    :label="$t('tickets.Atach')"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="cloud_upload" />
+                    </template>
+                  </q-file>
+                </q-card-section>
+                <q-card-section align="center" class="col-12 col-md">
+                  <q-btn
+                    style="margin-right: 20px"
+                    class="col-3"
+                    :label="$t('tickets.SubmitTicket')"
+                    type="submit"
+                    color="primary"
+                    @click="checkSubmit()"
+                  ></q-btn>
+                  <q-btn
+                    class="col-3"
+                    :label="$t('tickets.close')"
+                    type="close"
+                    color="primary"
+                    v-close-popup
+                  ></q-btn>
+                </q-card-section>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+      </div>
     </div>
   </div>
 </template>
@@ -272,8 +275,7 @@ export default {
 };
 </script>
 <style scoped>
-.height-width {
-  min-width: 600px;
-  min-height: 600px;
+.mh {
+  max-width: 95%;
 }
 </style>
